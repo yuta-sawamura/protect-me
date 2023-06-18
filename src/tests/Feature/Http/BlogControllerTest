@@ -1,0 +1,70 @@
+<?php
+
+namespace Tests\Feature;
+
+use App\Models\Blog;
+use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
+use Tests\TestCase;
+
+class BlogControllerTest extends TestCase
+{
+    use RefreshDatabase;
+    use WithoutMiddleware;
+
+    public function testIndexWithoutSearchQuery()
+    {
+        $user = User::factory()->create();
+        Blog::factory()->for($user)->create();
+
+        $response = $this->get('/');
+
+        $response->assertStatus(200);
+        $response->assertViewHas('blogs');
+    }
+
+    public function testIndexWithSearchQuery()
+    {
+        $user = User::factory()->create();
+        $blog1 = Blog::factory()->for($user)->create([
+            'title' => 'Test title',
+            'content' => 'Test content'
+        ]);
+
+        $blog2 = Blog::factory()->for($user)->create([
+            'title' => 'Another title',
+            'content' => 'Another content'
+        ]);
+
+        $query = 'Test';
+        $response = $this->get('/?q=' . $query);
+
+        $response->assertStatus(200);
+        $response->assertViewHas('blogs');
+
+        $this->assertTrue($response['blogs']->contains($blog1));
+        $this->assertFalse($response['blogs']->contains($blog2));
+    }
+
+    public function test_can_view_blog_post()
+    {
+        $user = User::factory()->create();
+        $blog = Blog::factory()->create(['user_id' => $user->id]);
+
+        $response = $this->get('/blogs/' . $blog->id);
+
+        $response->assertStatus(200)
+            ->assertViewIs('blogs.detail')
+            ->assertViewHas('blog', $blog)
+            ->assertSee($blog->title)
+            ->assertSee($blog->content);
+    }
+
+    public function test_non_existent_blog_post_throws_exception()
+    {
+        $this->expectException(ModelNotFoundException::class);
+
+        $this->get('/blogs/9999');
+    }
+}
