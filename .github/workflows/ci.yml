@@ -47,3 +47,6 @@ jobs:
 
       - name: Run PHPUnit
         run: docker compose exec app ./vendor/bin/phpunit
+
+      - name: Check directory existence
+        run: docker compose exec app ls -l /workspace/tests/Unit
