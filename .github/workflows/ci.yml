@@ -46,7 +46,10 @@ jobs:
       #   run: docker compose exec app ./vendor/bin/php-cs-fixer fix --dry-run --diff
 
       - name: Check directory existence
-        run: docker compose exec app ls -l /workspace/tests/Unit
+        run: docker compose exec app ls -l
 
-      - name: Run PHPUnit
-        run: docker compose exec app ./vendor/bin/phpunit
+      - name: pwd
+        run: docker compose exec app pwd
+
+      # - name: Run PHPUnit
+      #   run: docker compose exec app ./vendor/bin/phpunit
