@@ -20,11 +20,30 @@
                     <a href="/score-board" class="bg-green-500 text-white rounded-md px-4 py-2">
                         Score board
                     </a>
+                    @guest
                     <div class="flex space-x-4 items-center">
                         <a href="/login" class="bg-blue-600 text-white rounded-md px-4 py-2">
                             Login
                         </a>
                     </div>
+                    @endguest
+                    @auth
+                    <div id="user-info" class="relative text-gray-700 cursor-pointer">
+                        <div id="username">
+                            <span>{!! '@' !!}{{ Auth::user()->name }}</span>
+                        </div>
+                        <div id="modal"
+                            class="absolute top-full right-0 mt-2 bg-white border border-gray-300 text-black shadow-lg rounded-lg p-4 hidden">
+                            <a href="/my-profile" class="block text-blue-500">Mypage</a>
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+                                <button type="submit" class="block text-blue-500 bg-transparent cursor-pointer">
+                                    Logout
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                    @endauth
                 </div>
             </div>
         </div>
@@ -49,6 +68,30 @@
                 }
             }, 3000);
         };
+    </script>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', (event) => {
+            const userInfoDiv = document.getElementById('user-info');
+            const modalDiv = document.getElementById('modal');
+
+            if (userInfoDiv) {
+                userInfoDiv.addEventListener('click', (e) => {
+                    modalDiv.classList.toggle('hidden');
+                    e.stopPropagation();
+                });
+            }
+
+            if (modalDiv) {
+                modalDiv.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                });
+            }
+
+            window.addEventListener('click', (event) => {
+                modalDiv.classList.add('hidden');
+            });
+        });
     </script>
 </body>
 

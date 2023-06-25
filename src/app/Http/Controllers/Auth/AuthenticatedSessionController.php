@@ -45,6 +45,8 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerateToken();
 
+        $request->session()->flash('status', 'You\'re logged out!');
+
         return redirect('/');
     }
 }
