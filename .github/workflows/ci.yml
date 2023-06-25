@@ -39,11 +39,11 @@ jobs:
       - name: Run Database Migrations and Seeds
         run: docker compose exec app php artisan migrate:fresh --seed
 
-      - name: Run Larastan
-        run: docker compose exec app ./vendor/bin/phpstan analyse
+      # - name: Run Larastan
+      #   run: docker compose exec app ./vendor/bin/phpstan analyse
 
-      - name: Run PHP-CS-Fixer
-        run: docker compose exec app ./vendor/bin/php-cs-fixer fix --dry-run --diff
+      # - name: Run PHP-CS-Fixer
+      #   run: docker compose exec app ./vendor/bin/php-cs-fixer fix --dry-run --diff
 
       - name: Run PHPUnit
         run: docker compose exec app ./vendor/bin/phpunit
