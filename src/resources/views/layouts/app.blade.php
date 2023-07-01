@@ -22,8 +22,13 @@
                     </a>
                     @guest
                     <div class="flex space-x-4 items-center">
-                        <a href="/login" class="bg-blue-600 text-white rounded-md px-4 py-2">
+                        <a href="/login" class="bg-white border border-blue-600 text-blue-600 rounded-md px-4 py-2">
                             Login
+                        </a>
+                    </div>
+                    <div class="flex space-x-4 items-center">
+                        <a href="/register" class="bg-blue-600 text-white rounded-md px-4 py-2">
+                            Sign up
                         </a>
                     </div>
                     @endguest
