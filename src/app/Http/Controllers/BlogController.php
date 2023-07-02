@@ -45,12 +45,11 @@ class BlogController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param int $id
+     * @param Blog $blog
      * @return View
      */
-    public function show(int $id): View
+    public function show(Blog $blog): View
     {
-        $blog = Blog::with('user')->findOrFail($id);
         return view('blogs.detail', ['blog' => $blog]);
     }
 

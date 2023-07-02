@@ -22,7 +22,7 @@ Route::group(['prefix' => 'blogs'], function () {
         return view('blogs.create');
     });
 
-    Route::get('/{id}', [BlogController::class, 'show']);
+    Route::get('/{blog}', [BlogController::class, 'show']);
 
     Route::get('/{id}/edit', function ($id) {
         return view('blogs.edit', ['id' => $id]);
@@ -30,7 +30,8 @@ Route::group(['prefix' => 'blogs'], function () {
 });
 
 Route::group(['prefix' => 'users'], function () {
-    Route::get('/{id}', [UserController::class, 'show']);
+    Route::get('/{user}', [UserController::class, 'show']);
+    Route::delete('/{user}', [UserController::class, 'destroy']);
 });
 
 Route::get('score-board', function () {

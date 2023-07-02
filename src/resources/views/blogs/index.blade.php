@@ -2,9 +2,12 @@
 
 @section('content')
 
+@auth
 <div class="mb-6 text-right">
     <a href="/blogs/create" class="bg-blue-600 text-white rounded-md px-4 py-2">Add New Post</a>
 </div>
+@endauth
+
 <div class="mb-6">
     <form action="/" method="GET">
         <div class="relative">
