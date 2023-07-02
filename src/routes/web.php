@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BlogController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,9 +30,7 @@ Route::group(['prefix' => 'blogs'], function () {
 });
 
 Route::group(['prefix' => 'users'], function () {
-    Route::get('/{id}', function ($id) {
-        return view('users.detail', ['id' => $id]);
-    });
+    Route::get('/{id}', [UserController::class, 'show']);
 });
 
 Route::get('score-board', function () {

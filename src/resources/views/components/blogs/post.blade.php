@@ -7,7 +7,7 @@
             </a>
             <div>
                 <div class="text-gray-700 text-sm">
-                    <a href="/users/1">
+                    <a href="/users/{{ $blog->user->id }}">
                         <span>{!! '@' !!}{{ $blog->user->name }}</span>
                     </a>
                 </div>

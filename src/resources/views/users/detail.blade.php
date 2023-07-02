@@ -8,13 +8,13 @@
             class="rounded-full w-20 h-20 mr-4" />
         <div>
             <div class="text-gray-700 text-lg">
-                <span>Posts by @yuta</span>
+                <span>{!! '@' !!}{{ $user->name }}</span>
             </div>
         </div>
     </div>
     <a href="/your-logout-endpoint-here" class="bg-red-600 text-white rounded-md px-4 py-2">Delete Account</a>
 </div>
 
-@include('components.blogs.post')
+@include('components.blogs.post', ['blogs' => $blogs])
 
 @endsection
