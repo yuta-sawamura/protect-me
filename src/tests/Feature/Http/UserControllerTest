@@ -30,4 +30,43 @@ class UserControllerTest extends TestCase
             $this->assertContains($blog->id, $viewBlogs->pluck('id'));
         }
     }
+
+    /** @test */
+    public function a_user_can_delete_their_account()
+    {
+        // Create a user
+        $user = User::factory()->create();
+
+        // Authenticate as the user
+        $this->actingAs($user);
+
+        // Send a delete request
+        $response = $this->delete("/users/{$user->id}");
+
+        // Assert the user was deleted
+        $this->assertDatabaseMissing('users', ['id' => $user->id]);
+
+        // Assert a redirect to the home page
+        $response->assertRedirect('/');
+    }
+
+    /** @test */
+    public function a_user_cannot_delete_another_users_account()
+    {
+        // Create two users
+        $user = User::factory()->create();
+        $otherUser = User::factory()->create();
+
+        // Authenticate as the first user
+        $this->actingAs($user);
+
+        // Send a delete request for the other user
+        $response = $this->delete("/users/{$otherUser->id}");
+
+        // Assert the other user was not deleted
+        $this->assertDatabaseHas('users', ['id' => $otherUser->id]);
+
+        // Assert a redirect back to the previous page
+        $response->assertRedirect();
+    }
 }

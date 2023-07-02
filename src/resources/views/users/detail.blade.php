@@ -12,7 +12,13 @@
             </div>
         </div>
     </div>
-    <a href="/your-logout-endpoint-here" class="bg-red-600 text-white rounded-md px-4 py-2">Delete Account</a>
+    @if(Auth::user() && Auth::user()->id === $user->id)
+    <form action="/users/{{ $user->id }}" method="POST">
+        @csrf
+        @method('DELETE')
+        <button type="submit" class="bg-red-600 text-white rounded-md px-4 py-2">Delete Account</button>
+    </form>
+    @endif
 </div>
 
 @include('components.blogs.post', ['blogs' => $blogs])
