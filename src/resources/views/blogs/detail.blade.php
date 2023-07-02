@@ -9,7 +9,9 @@
                 class="rounded-full w-10 h-10 mr-4" />
             <div>
                 <div class="text-gray-700 text-sm">
-                    <span>{!! '@' !!}{{ $blog->user->name }}</span>
+                    <a href="/users/{{ $blog->user->id }}">
+                        <span>{!! '@' !!}{{ $blog->user->name }}</span>
+                    </a>
                 </div>
                 <div class="text-gray-700 text-sm mb-2">
                     <span>
