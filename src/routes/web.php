@@ -21,17 +21,19 @@ Route::group(['prefix' => 'blogs'], function () {
     Route::get('/create', function () {
         return view('blogs.create');
     });
-
     Route::get('/{blog}', [BlogController::class, 'show']);
-
     Route::get('/{id}/edit', function ($id) {
         return view('blogs.edit', ['id' => $id]);
     });
 });
 
 Route::group(['prefix' => 'users'], function () {
-    Route::get('/{user}', [UserController::class, 'show']);
-    Route::delete('/{user}', [UserController::class, 'destroy']);
+    Route::get('/{user}', [UserController::class, 'show'])->name('users.show');
+    Route::middleware(['auth'])->group(function () {
+        Route::get('/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
+        Route::put('/{user}', [UserController::class, 'update'])->name('users.update');
+        Route::delete('/{user}', [UserController::class, 'destroy'])->name('users.destroy');
+    });
 });
 
 Route::get('score-board', function () {

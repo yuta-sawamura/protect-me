@@ -13,11 +13,15 @@
         </div>
     </div>
     @if(Auth::user() && Auth::user()->id === $user->id)
-    <form action="/users/{{ $user->id }}" method="POST">
-        @csrf
-        @method('DELETE')
-        <button type="submit" class="bg-red-600 text-white rounded-md px-4 py-2">Delete Account</button>
-    </form>
+    <div class="flex items-center space-x-4">
+        <a href="/users/{{ $user->id }}/edit" class="bg-blue-600 text-white rounded-md px-4 py-2 inline-block">Edit
+            Account</a>
+        <form action="/users/{{ $user->id }}" method="POST">
+            @csrf
+            @method('DELETE')
+            <button type="submit" class="bg-red-600 text-white rounded-md px-4 py-2">Delete Account</button>
+        </form>
+    </div>
     @endif
 </div>
 
