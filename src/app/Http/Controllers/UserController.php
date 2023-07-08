@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Blog;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
@@ -25,8 +26,38 @@ class UserController extends Controller
         ]);
     }
 
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param User $user
+     * @return View
+     */
+    public function edit(User $user): View
+    {
+        return view('users.edit', [
+            'user' => $user,
+        ]);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     * @param User $user
+     * @return RedirectResponse
+     */
+    public function update(Request $request, User $user): RedirectResponse
+    {
+        $user->update($request->only('name', 'email'));
+
+        return redirect()->route('users.show', $user)->with('status', 'Your profile has been updated.');
+    }
+
+
     /**
      * Destroy user.
+     *
+     * @param User $user
+     * @return RedirectResponse
      */
     public function destroy(User $user): RedirectResponse
     {

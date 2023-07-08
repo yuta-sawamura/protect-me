@@ -39,7 +39,7 @@
                         </div>
                         <div id="modal"
                             class="absolute top-full right-0 mt-2 bg-white border border-gray-300 text-black shadow-lg rounded-lg p-4 hidden">
-                            <a href="/my-profile" class="block text-blue-500">Mypage</a>
+                            <a href="/users/{{ Auth::user()->id }}" class="block text-blue-500">Mypage</a>
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
                                 <button type="submit" class="block text-blue-500 bg-transparent cursor-pointer">
