@@ -10,6 +10,7 @@ class BlogController extends Controller
 {
     /**
      * Display a listing of the resource.
+     * @param Request $request
      * @return View
      */
     public function index(Request $request): View
@@ -50,7 +51,7 @@ class BlogController extends Controller
      */
     public function show(Blog $blog): View
     {
-        return view('blogs.detail', ['blog' => $blog]);
+        return view('blogs.show', ['blog' => $blog]);
     }
 
     // /**

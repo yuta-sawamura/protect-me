@@ -9,7 +9,7 @@
                 class="rounded-full w-10 h-10 mr-4" />
             <div>
                 <div class="text-gray-700 text-sm">
-                    <a href="/users/{{ $blog->user->id }}">
+                    <a href="{{ route('users.show', ['user' => $blog->user->id]) }}">
                         <span>{!! '@' !!}{{ $blog->user->name }}</span>
                     </a>
                 </div>
@@ -27,7 +27,7 @@
             </div>
         </div>
         <div class="text-right">
-            <a href="/blog/{{ $blog->id }}/edit" class="text-blue-600 hover:underline">Edit</a>
+            <a href="{{ route('blogs.edit', ['blog' => $blog->id]) }}" class="text-blue-600 hover:underline">Edit</a>
         </div>
     </div>
 </div>
