@@ -10,18 +10,22 @@
 
         <!-- Name -->
         <div class="mb-4">
-            <x-input-label for="name" :value="__('Name')" />
-            <x-text-input id="name" class="block w-full p-2 border-2 border-gray-300 rounded-md" type="text" name="name"
-                :value="old('name', $user->name)" required autofocus />
-            <x-input-error :messages="$errors->get('name')" class="mt-2" />
+            <label for="name" class="block text-sm font-medium text-gray-700">{{ __('Name') }}</label>
+            <input id="name" class="block w-full p-2 border-2 border-gray-300 rounded-md" type="text" name="name"
+                value="{{ old('name', $user->name) }}" required autofocus />
+            @error('name')
+            <span class="text-red-500 text-sm mt-2">{{ $message }}</span>
+            @enderror
         </div>
 
         <!-- Email Address -->
         <div class="mb-4">
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block w-full p-2 border-2 border-gray-300 rounded-md" type="email"
-                name="email" :value="old('email', $user->email)" required />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+            <label for="email" class="block text-sm font-medium text-gray-700">{{ __('Email') }}</label>
+            <input id="email" class="block w-full p-2 border-2 border-gray-300 rounded-md" type="email" name="email"
+                value="{{ old('email', $user->email) }}" required />
+            @error('email')
+            <span class="text-red-500 text-sm mt-2">{{ $message }}</span>
+            @enderror
         </div>
 
         <div class="flex items-center justify-between">
