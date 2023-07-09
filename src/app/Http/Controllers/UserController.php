@@ -20,7 +20,7 @@ class UserController extends Controller
     public function show(User $user): View
     {
         $blogs = Blog::with('user')->where('user_id', $user->id)->get();
-        return view('users.detail', [
+        return view('users.show', [
             'user' => $user,
             'blogs' => $blogs
         ]);

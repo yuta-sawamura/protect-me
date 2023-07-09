@@ -20,11 +20,11 @@ Route::get('/', [BlogController::class, 'index']);
 Route::group(['prefix' => 'blogs'], function () {
     Route::get('/create', function () {
         return view('blogs.create');
-    });
-    Route::get('/{blog}', [BlogController::class, 'show']);
-    Route::get('/{id}/edit', function ($id) {
-        return view('blogs.edit', ['id' => $id]);
-    });
+    })->name('blogs.create');
+    Route::get('/{blog}', [BlogController::class, 'show'])->name('blogs.show');
+    Route::get('/{blog}/edit', function ($blog) {
+        return view('blogs.edit', ['blog' => $blog]);
+    })->name('blogs.edit');
 });
 
 Route::group(['prefix' => 'users'], function () {
@@ -37,7 +37,7 @@ Route::group(['prefix' => 'users'], function () {
 });
 
 Route::get('score-board', function () {
-    return view('score-board');
+    return view('score-board')->name('score-board');
 });
 
 // Route::get('/', function () {
