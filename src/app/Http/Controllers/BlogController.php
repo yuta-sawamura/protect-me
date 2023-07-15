@@ -6,6 +6,7 @@ use App\Models\Blog;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Auth;
 
 class BlogController extends Controller
 {
@@ -63,7 +64,6 @@ class BlogController extends Controller
 
     /**
      * Display the specified resource.
-     *
      * @param Blog $blog
      * @return View
      */
@@ -72,21 +72,41 @@ class BlogController extends Controller
         return view('blogs.show', ['blog' => $blog]);
     }
 
-    // /**
-    //  * Show the form for editing the specified resource.
-    //  */
-    // public function edit(Blog $blog)
-    // {
-    //     //
-    // }
+    /**
+     * Show the form for editing the specified resource.
+     * @param Blog $blog
+     */
+    public function edit(Blog $blog): View
+    {
+        if (Auth::id() !== $blog->user_id) {
+            abort(403, 'You do not have permission to edit this blog');
+        }
+        return view('blogs.edit', ['blog' => $blog]);
+    }
 
-    // /**
-    //  * Update the specified resource in storage.
-    //  */
-    // public function update(Request $request, Blog $blog)
-    // {
-    //     //
-    // }
+    /**
+     * Update the specified resource in storage.
+     * @param Request $request
+     * @param Blog $blog
+     * @return RedirectResponse
+     */
+    public function update(Request $request, Blog $blog): RedirectResponse
+    {
+        $request->validate([
+            'title' => 'required|max:255',
+            'content' => 'required',
+        ]);
+
+        if (Auth::id() !== $blog->user_id) {
+            abort(403, 'You do not have permission to edit this blog');
+        }
+
+        $blog->title = $request->title;
+        $blog->content = $request->content;
+        $blog->save();
+
+        return redirect()->route('blogs.show', $blog)->with('status', 'Blog updated successfully');
+    }
 
     // /**
     //  * Remove the specified resource from storage.

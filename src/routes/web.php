@@ -21,11 +21,10 @@ Route::group(['prefix' => 'blogs'], function () {
     Route::middleware(['auth'])->group(function () {
         Route::get('/create', [BlogController::class, 'create'])->name('blogs.create');
         Route::post('/', [BlogController::class, 'store'])->name('blogs.store');
+        Route::get('/{blog}/edit', [BlogController::class, 'edit'])->name('blogs.edit');
+        Route::put('/{blog}', [BlogController::class, 'update'])->name('blogs.update');
     });
     Route::get('/{blog}', [BlogController::class, 'show'])->name('blogs.show');
-    Route::get('/{blog}/edit', function ($blog) {
-        return view('blogs.edit', ['blog' => $blog]);
-    })->name('blogs.edit');
 });
 
 Route::group(['prefix' => 'users'], function () {

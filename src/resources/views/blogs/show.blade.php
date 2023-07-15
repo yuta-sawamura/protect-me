@@ -24,9 +24,11 @@
                 </div>
             </div>
         </div>
+        @if (Auth::id() === $blog->user_id)
         <div class="text-right">
             <a href="{{ route('blogs.edit', ['blog' => $blog->id]) }}" class="text-blue-600 hover:underline">Edit</a>
         </div>
+        @endif
     </div>
 </div>
 

@@ -4,15 +4,13 @@ namespace Tests\Feature;
 
 use App\Models\Blog;
 use App\Models\User;
+use App\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Tests\TestCase;
-use Illuminate\Support\Facades\Auth;
 
 class BlogControllerTest extends TestCase
 {
     use RefreshDatabase;
-    use WithoutMiddleware;
 
     public function testIndexWithoutSearchQuery()
     {
@@ -59,6 +57,7 @@ class BlogControllerTest extends TestCase
 
     public function testStore()
     {
+        $this->withoutMiddleware([VerifyCsrfToken::class]);
         $data = [
             'title' => 'Test Blog Title',
             'content' => 'Test blog content',
@@ -74,5 +73,33 @@ class BlogControllerTest extends TestCase
             'content' => $data['content'],
             'user_id' => $user->id,
         ]);
+    }
+
+    public function testEdit()
+    {
+        $user = User::factory()->create();
+        $blog = Blog::factory()->for($user)->create();
+
+        $response = $this->actingAs($user)->get(route('blogs.edit', $blog));
+
+        $response->assertStatus(200);
+        $response->assertViewIs('blogs.edit');
+    }
+
+    public function testUpdate()
+    {
+        $this->withoutMiddleware([VerifyCsrfToken::class]);
+        $user = User::factory()->create();
+        $blog = Blog::factory()->for($user)->create();
+
+        $updatedData = [
+            'title' => 'Updated Blog Title',
+            'content' => 'Updated blog content',
+        ];
+
+        $response = $this->actingAs($user)->put(route('blogs.update', $blog), $updatedData);
+
+        $response->assertRedirect(route('blogs.show', $blog));
+        $this->assertDatabaseHas('blogs', $updatedData);
     }
 }
