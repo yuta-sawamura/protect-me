@@ -2,7 +2,8 @@
 
 @section('content')
 
-<form action="/blog" method="POST">
+<form action="{{ route('blogs.store') }}" method="POST">
+    @csrf
     <div class="mb-4">
         <label for="title" class="block text-lg font-medium text-gray-700">Title</label>
         <input type="text" name="title" id="title" class="border-2 border-gray-300 rounded-md w-full p-2" required />

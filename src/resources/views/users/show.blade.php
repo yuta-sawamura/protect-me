@@ -4,8 +4,6 @@
 
 <div class="flex justify-between items-center mb-4">
     <div class="flex items-center">
-        <img src="http://flat-icon-design.com/f/f_object_174/s512_f_object_174_0bg.png" alt="User Image"
-            class="rounded-full w-20 h-20 mr-4" />
         <div>
             <div class="text-gray-700 text-lg">
                 <span>{!! '@' !!}{{ $user->name }}</span>

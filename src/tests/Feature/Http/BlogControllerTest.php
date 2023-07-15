@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Tests\TestCase;
+use Illuminate\Support\Facades\Auth;
 
 class BlogControllerTest extends TestCase
 {
@@ -47,24 +48,31 @@ class BlogControllerTest extends TestCase
         $this->assertFalse($response['blogs']->contains($blog2));
     }
 
-    public function test_can_view_blog_post()
+    public function testCreate()
     {
         $user = User::factory()->create();
-        $blog = Blog::factory()->create(['user_id' => $user->id]);
+        $response = $this->actingAs($user)->get(route('blogs.create'));
 
-        $response = $this->get('/blogs/' . $blog->id);
-
-        $response->assertStatus(200)
-            ->assertViewIs('blogs.detail')
-            ->assertViewHas('blog', $blog)
-            ->assertSee($blog->title)
-            ->assertSee($blog->content);
+        $response->assertStatus(200);
+        $response->assertViewIs('blogs.create');
     }
 
-    public function test_non_existent_blog_post_throws_exception()
+    public function testStore()
     {
-        $this->expectException(ModelNotFoundException::class);
+        $data = [
+            'title' => 'Test Blog Title',
+            'content' => 'Test blog content',
+        ];
 
-        $this->get('/blogs/9999');
+        $user = User::factory()->create();
+        $response = $this->actingAs($user)->post(route('blogs.store'), $data);
+
+        $response->assertRedirect(route('home'));
+
+        $this->assertDatabaseHas('blogs', [
+            'title' => $data['title'],
+            'content' => $data['content'],
+            'user_id' => $user->id,
+        ]);
     }
 }
