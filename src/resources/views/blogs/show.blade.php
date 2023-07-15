@@ -5,8 +5,6 @@
 <div class="divide-y divide-gray-200 mb-3">
     <div class="bg-white shadow-md rounded-md p-4">
         <div class="flex items-start">
-            <img src="http://flat-icon-design.com/f/f_object_174/s512_f_object_174_0bg.png" alt="User Image"
-                class="rounded-full w-10 h-10 mr-4" />
             <div>
                 <div class="text-gray-700 text-sm">
                     <a href="{{ route('users.show', ['user' => $blog->user->id]) }}">

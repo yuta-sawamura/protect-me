@@ -15,12 +15,13 @@ use App\Http\Controllers\UserController;
 |
 */
 
-Route::get('/', [BlogController::class, 'index']);
+Route::get('/', [BlogController::class, 'index'])->name('home');
 
 Route::group(['prefix' => 'blogs'], function () {
-    Route::get('/create', function () {
-        return view('blogs.create');
-    })->name('blogs.create');
+    Route::middleware(['auth'])->group(function () {
+        Route::get('/create', [BlogController::class, 'create'])->name('blogs.create');
+        Route::post('/', [BlogController::class, 'store'])->name('blogs.store');
+    });
     Route::get('/{blog}', [BlogController::class, 'show'])->name('blogs.show');
     Route::get('/{blog}/edit', function ($blog) {
         return view('blogs.edit', ['blog' => $blog]);
