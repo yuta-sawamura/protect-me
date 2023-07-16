@@ -108,11 +108,19 @@ class BlogController extends Controller
         return redirect()->route('blogs.show', $blog)->with('status', 'Blog updated successfully');
     }
 
-    // /**
-    //  * Remove the specified resource from storage.
-    //  */
-    // public function destroy(Blog $blog)
-    // {
-    //     //
-    // }
+    /**
+     * Remove the specified resource from storage.
+     * @param Blog $blog
+     * @return RedirectResponse
+     */
+    public function destroy(Blog $blog): RedirectResponse
+    {
+        if (Auth::id() !== $blog->user_id) {
+            abort(403, 'You do not have permission to delete this blog');
+        }
+
+        $blog->delete();
+
+        return redirect()->route('home')->with('status', 'Blog deleted successfully');
+    }
 }
