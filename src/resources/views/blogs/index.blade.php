@@ -9,7 +9,7 @@
 @endauth
 
 <div class="mb-6">
-    <form action="/" method="GET">
+    <form method="GET" action="{{ route('home') }}">
         <div class="relative">
             <input type="text" name="q" class="border-2 border-gray-300 rounded-md w-full pl-10 p-2"
                 placeholder="Search posts..." value="{{ request('q') }}" />

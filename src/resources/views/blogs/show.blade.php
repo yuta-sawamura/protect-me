@@ -3,7 +3,7 @@
 @section('content')
 
 <div class="divide-y divide-gray-200 mb-3">
-    <div class="bg-white shadow-md rounded-md p-4">
+    <div class="bg-white shadow-md rounded-md p-4 mb-4">
         <div class="flex items-start">
             <div>
                 <div class="text-gray-700 text-sm">
@@ -24,12 +24,19 @@
                 </div>
             </div>
         </div>
-        @if (Auth::id() === $blog->user_id)
-        <div class="text-right">
-            <a href="{{ route('blogs.edit', ['blog' => $blog->id]) }}" class="text-blue-600 hover:underline">Edit</a>
-        </div>
-        @endif
     </div>
+    @if(Auth::user() && Auth::user()->id === $blog->user->id)
+    <div class="flex justify-end space-x-4">
+        <a href="{{ route('users.edit', $blog->user) }}">
+            <button class="bg-blue-600 text-white rounded-md px-4 py-2">Edit</button>
+        </a>
+        <form method="POST" action="{{ route('users.destroy', $blog->user) }}">
+            @csrf
+            @method('DELETE')
+            <button type="submit" class="bg-red-600 text-white rounded-md px-4 py-2">Delete</button>
+        </form>
+    </div>
+    @endif
 </div>
 
 @endsection

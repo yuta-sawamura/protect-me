@@ -102,4 +102,15 @@ class BlogControllerTest extends TestCase
         $response->assertRedirect(route('blogs.show', $blog));
         $this->assertDatabaseHas('blogs', $updatedData);
     }
+
+    public function testDestroy()
+    {
+        $this->withoutMiddleware([VerifyCsrfToken::class]);
+        $user = User::factory()->create();
+        $blog = Blog::factory()->create(['user_id' => $user->id]);
+        $this->actingAs($user);
+        $response = $this->delete(route('blogs.destroy', $blog));
+        $response->assertRedirect(route('home'));
+        $this->assertDatabaseMissing('blogs', ['id' => $blog->id]);
+    }
 }
