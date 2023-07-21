@@ -25,18 +25,17 @@
             </div>
         </div>
     </div>
-    @if(Auth::user() && Auth::user()->id === $blog->user->id)
-    <div class="flex justify-end space-x-4">
-        <a href="{{ route('users.edit', $blog->user) }}">
-            <button class="bg-blue-600 text-white rounded-md px-4 py-2">Edit</button>
-        </a>
-        <form method="POST" action="{{ route('users.destroy', $blog->user) }}">
-            @csrf
-            @method('DELETE')
-            <button type="submit" class="bg-red-600 text-white rounded-md px-4 py-2">Delete</button>
-        </form>
-    </div>
-    @endif
 </div>
-
+@if(Auth::user() && Auth::user()->id === $blog->user->id)
+<div class="flex justify-end space-x-4">
+    <a href="{{ route('blogs.edit', $blog) }}">
+        <button class="bg-blue-600 text-white rounded-md px-4 py-2">Edit</button>
+    </a>
+    <form method="POST" action="{{ route('blogs.destroy', $blog) }}">
+        @csrf
+        @method('DELETE')
+        <button type="submit" class="bg-red-600 text-white rounded-md px-4 py-2">Delete</button>
+    </form>
+</div>
+@endif
 @endsection
