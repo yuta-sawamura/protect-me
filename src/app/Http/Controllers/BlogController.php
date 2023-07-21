@@ -59,7 +59,7 @@ class BlogController extends Controller
         $blog->user_id = auth()->user()->id;
         $blog->save();
 
-        return redirect()->route('home');
+        return redirect()->route('home')->with('status', 'Blog created successfully');
     }
 
     /**
