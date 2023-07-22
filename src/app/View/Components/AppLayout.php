@@ -12,6 +12,7 @@ class AppLayout extends Component
      */
     public function render(): View
     {
+        dd(111);
         return view('layouts.app');
     }
 }
