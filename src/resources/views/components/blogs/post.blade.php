@@ -16,7 +16,7 @@
                 </div>
                 <a href="{{ route('blogs.show', ['blog' => $blog->id]) }}">
                     <h2 class="text-xl font-semibold mb-2">
-                        {{ $blog->title }}
+                        <?php echo $blog->title ?>
                     </h2>
                 </a>
             </div>
