@@ -17,9 +17,11 @@
                     <a href="/">ProtectMe</a>
                 </div>
                 <div class="flex space-x-4 items-center">
-                    <a href="/score-board" class="bg-green-500 text-white rounded-md px-4 py-2">
+                    {{-- @auth --}}
+                    {{-- <a href="/score-board" class="bg-green-500 text-white rounded-md px-4 py-2">
                         Score board
-                    </a>
+                    </a> --}}
+                    {{-- @endauth --}}
                     @guest
                     <div class="flex space-x-4 items-center">
                         <a href="/login" class="bg-white border border-blue-600 text-blue-600 rounded-md px-4 py-2">
