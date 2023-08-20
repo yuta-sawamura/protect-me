@@ -7,7 +7,6 @@ services:
     build:
       context: .
       dockerfile: ./infra/docker/php/Dockerfile
-      target: ${APP_BUILD_TARGET:-development}
     volumes:
       - type: bind
         source: ./src
