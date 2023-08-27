@@ -39,10 +39,6 @@ $ docker compose exec app php artisan migrate:fresh --seed
 
 上記手順の完了後、ブラウザで http://localhost/ にアクセスしてください。
 
-## ハンズオン
-
--   [XSS](./docs/ja/XSS.md)
-
 ### Tips
 
 ```console
@@ -70,3 +66,7 @@ $ docker compose exec db bash
 # dbコンテナのMySQLに接続する
 $ docker compose exec db bash -c 'mysql -u $MYSQL_USER -p$MYSQL_PASSWORD $MYSQL_DATABASE'
 ```
+
+## ハンズオン
+
+-   [XSS](./docs/ja/XSS.md)
