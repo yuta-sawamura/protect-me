@@ -2,7 +2,7 @@
 
 Cross-Site Scripting (XSS) is a threat where attackers embed malicious scripts into a website, which are then executed in the browser of other users. If an XSS attack is successful, the attacker can steal user information or make the user perform fraudulent actions.
 
-## [日本語](../ja/xss.md) | English
+## [日本語](../ja/XSS.md) | English
 
 ## Potential Threats
 
