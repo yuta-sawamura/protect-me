@@ -17,9 +17,9 @@ We utilize Docker to run a multi-page application developed in Laravel (Linux, n
 
 ```console
 $ git --version
-git version 2.26.2
+git version x.x.x
 $ docker --version
-Docker version 20.10.5, build 55c4c88
+Docker version x.x.x, build xxxxx
 ```
 
 ### Installation

@@ -17,9 +17,9 @@ Docker を活用して、Laravel(Linux, nginx, MySQL,PHP)で開発されたマ�
 
 ```console
 $ git --version
-git version 2.26.2
+git version x.x.x
 $ docker --version
-Docker version 20.10.5, build 55c4c88
+Docker version x.x.x, build xxxxx
 ```
 
 ### インストール
