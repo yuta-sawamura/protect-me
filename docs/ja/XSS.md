@@ -40,7 +40,7 @@ http://localhost/login にアクセスし、Email：`john@example.com`, Password
 2. 悪意のあるスクリプトを入力する
 
 http://localhost/blogs/create にアクセスし、Title：`<script>alert("XSS!!!");</script>`, Content：`XSSを仕掛けます。`と入力し、「Submit」ボタンをクリックしてください。<br>
-画面遷移し、JavaScript を実行されアラートが表示されれば攻撃成功です。
+画面遷移し、JavaScript が実行されアラートが表示されれば攻撃成功です。
 
 ![xss](../img/xss1.png)
 
