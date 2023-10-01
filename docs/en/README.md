@@ -10,7 +10,7 @@ ProtectMe is a hands-on service designed to help users learn about web security.
 
 We utilize Docker to run a multi-page application developed in Laravel (Linux, nginx, MySQL, PHP) on your local development environment.
 
-### 前提
+### Prerequisite
 
 -   [Git](https://git-scm.com/)installed
 -   [Docker for Mac / Windows](https://www.docker.com/products/docker-desktop/)installed
@@ -39,7 +39,13 @@ $ docker compose exec app php artisan migrate:fresh --seed
 
 After following the steps above, access the application by navigating to http://localhost/ in your browser.
 
-### Tips
+## Hands-on
+
+After building the setup, deepen your understanding of vulnerabilities through hands-on activities.
+
+-   [XSS](./XSS.md)
+
+## Tips
 
 ```console
 # To create containers
@@ -65,9 +71,4 @@ $ docker compose exec db bash
 
 # To connect to MySQL within the db container
 $ docker compose exec db bash -c 'mysql -u $MYSQL_USER -p$MYSQL_PASSWORD $MYSQL_DATABASE'
-
 ```
-
-## Hands-on
-
--   [XSS](./XSS.md)
