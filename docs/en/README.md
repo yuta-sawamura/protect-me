@@ -1,6 +1,8 @@
 # ProtectMe
 
-ProtectMe is a hands-on service designed to help users learn about web security. Through this service, users can launch vulnerable websites on their local development environments, experience both cyber attacks and countermeasures firsthand, and thereby deepen their understanding of web security. Currently, you can learn about the following vulnerabilities:
+![xss](../img/blog.png)
+
+ProtectMe is a hands-on service designed to help users learn about web security. Through this service, users can launch vulnerable websites(Blog) on their local development environments, experience both cyber attacks and countermeasures firsthand, and thereby deepen their understanding of web security. Currently, you can learn about the following vulnerabilities:
 
 -   [XSS](./XSS.md)
 

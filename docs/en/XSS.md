@@ -35,7 +35,7 @@ Let's proceed to execute the attack and its countermeasure:
 
 1. Log in
 
-    Access http://localhost/login, enter Email: john@example.com, Password: password, and log in.
+    Access http://localhost/login, enter Email: `john@example.com`, Password: `password`, and log in.
 
 2. Enter a malicious script
 
@@ -48,7 +48,7 @@ Let's proceed to execute the attack and its countermeasure:
 
 Check how the browser is parsing the entered script. Open the inspection tools in your browser and confirm the HTML. You should be able to see `<script>alert("XSS!!!");</script>` parsed.
 
-![xss](../img/xss2.png)
+![xss](../img/xss6.png)
 
 ![xss](../img/xss3.png)
 
