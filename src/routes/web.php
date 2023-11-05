@@ -19,8 +19,6 @@ use App\Http\Controllers\UserController;
 
 Route::get('/', [BlogController::class, 'index'])->name('home');
 
-// Route::get('score-board', ScoreController::class . '@index')->middleware('auth')->name('scores.index');
-
 Route::group(['prefix' => 'blogs'], function () {
     Route::middleware(['auth'])->group(function () {
         Route::get('/create', [BlogController::class, 'create'])->name('blogs.create');

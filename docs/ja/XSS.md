@@ -33,18 +33,18 @@ XSS 攻撃を防ぐための基本的な対策は以下の通りです。
 
 それでは、攻撃と対策を実施してみましょう。
 
-1. ログインする
+### 1. ログインする
 
 http://localhost/login にアクセスし、Email：`john@example.com`, Password：`password`を入力し、ログインしてください。
 
-2. 悪意のあるスクリプトを入力する
+### 2. 悪意のあるスクリプトを入力する
 
 http://localhost/blogs/create にアクセスし、Title：`<script>alert("XSS!!!");</script>`, Content：`XSSを仕掛けます。`と入力し、「Submit」ボタンをクリックしてください。<br>
 画面遷移し、JavaScript が実行されアラートが表示されれば攻撃成功です。
 
 ![xss](../img/xss1.png)
 
-3. HTML を確認する
+### 3. HTML を確認する
 
 入力したスクリプトがブラウザでどのように解析されているか確認します。お使いのブラウザで検証ツールを開き、HTML を確認してください。`<script>alert("XSS!!!");</script>`と解析されているのが確認できます。
 
@@ -52,7 +52,7 @@ http://localhost/blogs/create にアクセスし、Title：`<script>alert("XSS!!
 
 ![xss](../img/xss3.png)
 
-4. 出力のエスケープ
+### 4. 出力のエスケープ
 
 以下は、ユーザーの入力が保存されたデータベースからブログのタイトルを取得し、表示する記述です。
 
@@ -68,7 +68,7 @@ https://github.com/yuta-sawamura/protect-me/blob/main/src/resources/views/blogs/
 {{ $blog->title; }}
 ```
 
-5. 対策の確認
+### 5. 対策の確認
 
 http://localhost/ にアクセスし、悪意のあるスクリプトが実行されておらず、`<script>alert("XSS!!!");</script>`と文字列が表示されています。
 
