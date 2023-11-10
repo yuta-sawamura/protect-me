@@ -31,7 +31,7 @@
             <div>
                 <div class="text-gray-700 text-sm">
                     <a href="/users/{{ $blog->user->id }}">
-                        <a href="{{ route('users.show', ['user' => $blog->user->id]) }}">
+                        <a href="{{ route('users.show', ['id' => $blog->user->id]) }}">
                             <span>{!! '@' !!}{{ $blog->user->name }}</span>
                         </a>
                 </div>
@@ -40,7 +40,7 @@
                         {{ $blog->created_at->format('Y-m-d') }}
                     </span>
                 </div>
-                <a href="{{ route('blogs.show', ['blog' => $blog->id]) }}">
+                <a href="{{ route('blogs.show', ['id' => $blog->id]) }}">
                     <h2 class="text-xl font-semibold mb-2">
                         <?php echo $blog->title ?>
                     </h2>

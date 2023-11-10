@@ -15,11 +15,12 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param User $user
+     * @param int $id
      * @return View
      */
-    public function show(User $user): View
+    public function show(int $id): View
     {
+        $user = User::findOrFail($id);
         $blogs = Blog::with('user')->where('user_id', $user->id)->get();
         return view('users.show', [
             'user' => $user,
@@ -31,11 +32,12 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param User $user
+     * @param int $id
      * @return View
      */
-    public function edit(User $user): View
+    public function edit(int $id): View
     {
+        $user = User::findOrFail($id);
         return view('users.edit', [
             'user' => $user,
         ]);
@@ -44,11 +46,13 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      * @param Request $request
-     * @param User $user
+     * @param int $id
      * @return RedirectResponse
      */
-    public function update(Request $request, User $user): RedirectResponse
+    public function update(Request $request, int $id): RedirectResponse
     {
+        $user = User::findOrFail($id);
+
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => [
@@ -69,11 +73,12 @@ class UserController extends Controller
     /**
      * Destroy user.
      *
-     * @param User $user
+     * @param int $id
      * @return RedirectResponse
      */
-    public function destroy(User $user): RedirectResponse
+    public function destroy(int $id): RedirectResponse
     {
+        $user = User::findOrFail($id);
         if (Auth::id() !== $user->id) {
             return redirect()->back();
         }

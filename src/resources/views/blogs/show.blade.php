@@ -7,7 +7,7 @@
         <div class="flex items-start">
             <div>
                 <div class="text-gray-700 text-sm">
-                    <a href="{{ route('users.show', ['user' => $blog->user->id]) }}">
+                    <a href="{{ route('users.show', ['id' => $blog->user->id]) }}">
                         <span>{!! '@' !!}{{ $blog->user->name }}</span>
                     </a>
                 </div>

@@ -1,24 +1,24 @@
 # 認可制御不備の概要
 
-認可制御不備とは、ログイン済みのユーザーが許可されていないデータへアクセスや変更を行えてしまう脆弱性です。適切な認可の仕組みを設けることで、ユーザーを検証し、データへの不正アクセスや変更を阻止する必要があります。
+認可制御不備とは、ログイン済みのユーザーが許可されていないデータへアクセスや変更を加えることができる脆弱性です。適切な認可の仕組みを設けることで、ユーザーを検証し、データへの不正アクセスや変更を阻止する必要があります。
 
 ## 日本語 | [English](../en/INSUFFICIENT_AUTHORIZATION_CHECK.md)
 
 ## 発生しうる脅威
 
-認可制御不備があると、正規のユーザーに成りすますことができます。これにより、ユーザーの個人情報の漏洩や改ざんされるリスクがあります。
+認可制御不備があるとユーザーに成りすますことができます。これにより、ユーザーの個人情報の漏洩や改ざんされるリスクがあります。
 
 ## 攻撃手法
 
-認可制御の不備による攻撃では、攻撃者は通常、アクセスする権限のないリソースや機能にアクセスしようとします。これは、Web アプリケーションがユーザー操作を適切に認可していない場合に起こる問題です。<br>
+認可制御の不備による攻撃では、攻撃者はアクセスする権限のないリソースや機能にアクセスします。これは、Web アプリケーションがユーザー操作を適切に認可していない場合に起こる問題です。<br>
 例えば、攻撃者が変更可能な URL のパラメータやフォームのデータを操作することで、他のユーザーの個人情報を閲覧したり、操作したりします。
 
 ## 対策方法
 
-ユーザーが実施する操作に対して、彼らの権限を検証し、許可されていない操作を行わせないようにする必要があります。セッション管理を適切に行い、ユーザー ID を安全に扱うことで、不正なアクセスを試みる者がユーザーになりすますことを防ぎます。<br>
-例えば、セッション変数を用いてユーザー ID を管理し、データベースにアクセスする際はこの ID を用いて検証を行います。
+ユーザーが実施する操作に対して、彼らの権限を検証し、許可されていない操作を行わせないようにする必要があります。セッション管理を適切に行い、ユーザー ID を安全に扱うことで、不正なアクセスを防ぐことができます。<br>
+例えば、セッション情報を用いてユーザー ID を管理し、データベースにアクセスする際はこの ID を用いて検証を行います。
 
-## ハンズオン
+## ハンズオン（攻撃）
 
 ### 1. ログインする
 
@@ -52,150 +52,153 @@ Name と Email に適当な値を入力し、「Update」ボタンをクリッ�
 
 ![authorization](../img/authorization5.png)
 
-### 5. 他のユーザー情報を編集できないように認可制御する
+## ハンズオン（対策） - 他のユーザー情報を編集できないように認可制御する
 
-| #   | 手順                                                        |
-| --- | ----------------------------------------------------------- |
-| 1   | セッションからログインユーザーの ID を取得する              |
-| 2   | 該当リソースの ID を取得する                                |
-| 3   | 「ログインユーザー ID」と「該当リソースの ID」 を比較する   |
-| 4   | `false`と判定された場合、HTTP レスポンスの 403 エラーを返す |
+### 概要
 
+<http://localhost/users/1/edit>の 1 がアプリケーション内部では、`users` テーブルの `id` カラムとして管理されています。
+
+＜`users` テーブル＞
+
+| id  | name      | email                 |
+| --- | --------- | --------------------- |
+| 1   | John      | john@example.com      |
+| 2   | Michael   | michael@example.com   |
+| 3   | Catherine | catherine@example.com |
+
+他のユーザー情報を編集できないように認可制御するためには、ログインユーザーが編集の対象リソースを編集する権限を有しているか検証する必要があります。
+
+| ログインユーザー       | 対象リソース           |
+| ---------------------- | ---------------------- |
+| `users` テーブルで管理 | `users` テーブルで管理 |
+
+したがって、ログインユーザーと編集の対象リソースが一致していれば編集可能、一致していなければ編集不可という処理を実装することで、認可制御を実現することができます。
+
+＜参考＞
 Laravel では認可制御するために、ゲートやポリシーという仕組みが備わっています（[詳細](https://readouble.com/laravel/10.x/ja/authorization.html)）。今回は学習が目的であるため、Laravel の認可制御を使用せず、自前で実装します。
 
-#### 既存の該当コードの説明（ルーティング）
-
-```php
-Route::put('/{user}', [UserController::class, 'update'])->name('users.update');
-```
-
-<https://github.com/yuta-sawamura/protect-me/blob/main/src/routes/web.php#L39>
-
-1. `Route::put:`<br>
-   これは、[HTTP](https://developer.mozilla.org/ja/docs/Web/HTTP/Overview) の PUT メソッドに対応するルートを定義しています。PUT メソッドは通常、既存のリソースを更新するために使用されます。
-2. `'/{user}':`<br>
-   ここで定義されている`/{user}`は、URL パラメータです。これにより、ユーザーの ID などの特定のユーザーリソースを指定するために、URL 内で動的なセグメントを使用できるようになります。例えば、`users/1` という URL は ID が 1 のユーザーを指します。<br>
-   Laravel はこのパラメータを取得し、リクエストされた `User` のインスタンスをデータベースから検索して取得します。具体的には以下のようなクエリが発行されます。
-
-    ```sql
-     SELECT * FROM `users` WHERE `id` = 1 LIMIT 1;
-    ```
-
-    ![authorization](../img/authorization6.png)
-    ＜テーブル情報＞<br>
-
-    ```sql
-     CREATE TABLE `users` (
-    `id` bigint unsigned NOT NULL AUTO_INCREMENT,
-    `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-    `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-    `email_verified_at` timestamp NULL DEFAULT NULL,
-    `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-    `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-    `created_at` timestamp NULL DEFAULT NULL,
-    `updated_at` timestamp NULL DEFAULT NULL,
-    PRIMARY KEY (`id`),
-    UNIQUE KEY `users_email_unique` (`email`)
-    ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-    ```
-
-3. `[UserController::class, 'update']:`<br>
-   この配列は、リクエストを処理するために呼び出されるコントローラーとメソッドを指定しています。この場合、`UserController` の `update` メソッドがリクエストを処理します。
-4. `->name('users.update'):`<br>
-   `name` メソッドは、ルートに名前を付けるために使用されます。これにより、アプリケーションの他の部分からルートを参照しやすくなります（例：リダイレクトやリンク生成時）。ここでは、ルートに`'users.update'`という名前が付けられています。
-
-#### 既存の該当コードの説明（`update`）
+### 【改修前】 該当コードの解説
 
 ```php
 /**
- * 指定されたリソースを更新します。
- * @param Request $request // HTTPリクエストオブジェクトを受け取る
- * @param User $user // 更新するUserモデルのインスタンスを受け取る
- * @return RedirectResponse // 更新後にリダイレクトレスポンスを返す
+ * Update the specified resource in storage.
+ * @param Request $request // HTTPリクエストインスタンスを受け取ります。
+ * @param int $id // 更新するリソース（ユーザー）のIDを受け取ります。
+ * @return RedirectResponse // 更新後にリダイレクトレスポンスを返します。
  */
-public function update(Request $request, User $user): RedirectResponse
+public function update(Request $request, int $id): RedirectResponse
 {
-    // リクエストデータのバリデーションルールを定義し、バリデーションを実施する
+     // 指定されたIDを持つユーザーをデータベースから検索し、見つからない場合は404エラーを返します。
+    $user = User::findOrFail($id);
+
+    // リクエストデータのバリデーションを行います。
     $validated = $request->validate([
-        'name' => ['required', 'string', 'max:255'], // 名前は必須、文字列、最大255文字
-        'email' => [
-            'required', // メールは必須
-            'string', // 文字列
-            'email', // メール形式であること
-            'max:255', // 最大255文字
-            Rule::unique('users')->ignore($user->id), // usersテーブル内で一意であり、現在のユーザーは除外
+        'name' => ['required', 'string', 'max:255'], // 名前は必須、文字列、最大255文字まで。
+        'email' => [ // メールアドレスに関するバリデーションルール。
+            'required', // 必須項目。
+            'string', // 文字列であること。
+            'email', // 有効なメールアドレス形式であること。
+            'max:255', // 最大255文字まで。
+            Rule::unique('users')->ignore($user->id), // ユーザーテーブル内で一意であり、現在のユーザーのIDは除外する。
         ],
     ]);
 
-    // ユーザーモデルを更新する（バリデーション済みのデータで）
+    // バリデーションを通過したデータでユーザー情報を更新します。
     $user->update($validated);
 
-    // ユーザー編集ページにリダイレクトし、ステータスメッセージとともに
+    // ユーザー編集ページにリダイレクトし、ステータスメッセージをセッションに格納します。
     return redirect()->route('users.edit', $user)->with('status', 'Your profile has been updated.');
 }
 ```
 
 <https://github.com/yuta-sawamura/protect-me/blob/main/src/app/Http/Controllers/UserController.php#L44-L65>
 
-#### 認可制御する
+### 認可制御の実装
 
-既存コードは認可制御がされていないため、以下の処理を実装します。
+既存コードを以下のように改修し、認可制御をします。
 
 ```php
-public function update(Request $request, User $user): RedirectResponse
+/**
+ * Update the specified resource in storage.
+ * @param Request $request // HTTPリクエストインスタンスを受け取ります。
+ * @param int $id // 更新するリソース（ユーザー）のIDを受け取ります。
+ * @return RedirectResponse // 更新後にリダイレクトレスポンスを返します。
+ */
+public function update(Request $request, int $id): RedirectResponse
 {
+     // 指定されたIDを持つユーザーをデータベースから検索し、見つからない場合は404エラーを返します。
+    $user = User::findOrFail($id);
+
     // 認可制御
-    // Authファサードのidメソッドを使用してログインユーザーの ID を取得することができる。Doc: https://readouble.com/laravel/10.x/ja/authentication.html
-    // Userモデルインスタンスからidフィールドを取得する。
+    // ログインユーザーと編集の対象リソースの比較
     if (Auth::id() !== $user->id) {
-        // abort関数でHTTPレスポンスコードを指定してエラーレスポンスを生成し、即座にリクエスト処理を終了させる。
+        // 403エラーを返却する
         abort(403, 'You do not have permission to edit this blog');
     }
 
+    // リクエストデータのバリデーションを行います。
     $validated = $request->validate([
-        'name' => ['required', 'string', 'max:255'],
-        'email' => [
-            'required',
-            'string',
-            'email',
-            'max:255',
-            Rule::unique('users')->ignore($user->id),
+        'name' => ['required', 'string', 'max:255'], // 名前は必須、文字列、最大255文字まで。
+        'email' => [ // メールアドレスに関するバリデーションルール。
+            'required', // 必須項目。
+            'string', // 文字列であること。
+            'email', // 有効なメールアドレス形式であること。
+            'max:255', // 最大255文字まで。
+            Rule::unique('users')->ignore($user->id), // ユーザーテーブル内で一意であり、現在のユーザーのIDは除外する。
         ],
     ]);
 
+    // バリデーションを通過したデータでユーザー情報を更新します。
     $user->update($validated);
 
+    // ユーザー編集ページにリダイレクトし、ステータスメッセージをセッションに格納します。
     return redirect()->route('users.edit', $user)->with('status', 'Your profile has been updated.');
 }
 ```
 
-| #   | 手順                                                        | 該当コード                 |
-| --- | ----------------------------------------------------------- | -------------------------- |
-| 1   | セッションからログインユーザーの ID を取得する              | `Auth::id();`              |
-| 2   | 該当リソースの ID を取得する                                | `$user->id;`               |
-| 3   | 「ログインユーザー ID」と「該当リソースの ID」 を比較する   | `Auth::id() !== $user->id` |
-| 4   | `false`と判定された場合、HTTP レスポンスの 403 エラーを返す | `abort(403, '...');`       |
+<https://github.com/yuta-sawamura/protect-me/blob/main/src/app/Http/Controllers/UserController.php#L44-L65>
 
-Laravel では、受信リクエストの処理時、`Auth`ファサードの`id`メソッドを使用して認証済みユーザー ID を取得することができます（[詳細](https://readouble.com/laravel/10.x/ja/authentication.html)）。
+### 認可制御の解説
 
-### 6. 他のユーザー情報を編集できるか確認する
+> ログインユーザーと編集の対象リソースが一致していれば編集可能、一致していなければ編集不可という処理を実装することで、認可制御を実現することができます。
+
+＜ログインユーザーの取得＞
+
+ログインユーザーの取得は、Laravel の`Auth` ファサードを利用します。<br>
+`Auth::id()` は Laravel の認証システムの一部であり、現在ログインしているユーザーの ID をセッションから取得することができます。（[詳細](https://readouble.com/laravel/10.x/ja/authentication.html)）
+
+＜対象リソースの取得＞
+
+`User::findOrFail($id);` は、データベースの `users` テーブルの対象レコードを取得します。具体的には以下の SQL を発行し、データベースに問い合わせます。
+
+```sql
+SELECT * FROM users WHERE id = [指定されたID] LIMIT 1;
+```
+
+`Auth::id() !== $user->id`で比較し、合致しなければ編集不可であるため、`abort` 関数で HTTP レスポンスコードを指定してエラーレスポンスを生成し、即座にリクエスト処理を終了させます。
+
+```php
+abort(403, 'You do not have permission to edit this blog');
+```
+
+### 他のユーザー情報を編集できないように認可制御できているか確認する
 
 他のユーザー情報にアクセスします。<http://localhost/users/2/edit>
 Name と Email に適当な値を入力し、更新します。以下のようなエラー画面が表示された場合、認可制御が成功しています。
 
 ![authorization](../img/authorization7.png)
 
-### 7. 他のユーザー情報にアクセスできないように認可制御する
+## ハンズオン（対策） - 他のユーザー情報にアクセスできないように認可制御する
 
-他のユーザー情報の編集機能は認可制御することができましたが、他のユーザー情報のアクセスに対する認可制御ができていません。<br>
-他のユーザー情報にアクセスします。<http://localhost/users/2/edit><br>
-先ほどと同様の認可制御の処理を実装します。<br>
+他のユーザー情報の編集機能は認可制御することができましたが、他のユーザー情報のアクセスに対する認可制御ができていません。他のユーザー情報にアクセスし、認可制御できていないことを確認します。<http://localhost/users/2/edit><br>
+こちらの認可制御方法も、前述した実装方法と同じです。そのため、`edit`アクションで先ほどと同じ処理を実装します。
 
 ＜認可制御前＞
 
 ```php
-public function edit(User $user): View
+public function edit(int $id): View
 {
+    $user = User::findOrFail($id);
     return view('users.edit', [
         'user' => $user,
     ]);
@@ -207,13 +210,11 @@ public function edit(User $user): View
 ＜認可制御後＞
 
 ```php
-public function edit(User $user): View
+public function edit(int $id): View
 {
+    $user = User::findOrFail($id);
     // 認可制御
-    // Authファサードのidメソッドを使用してログインユーザーの ID を取得することができる。Doc: https://readouble.com/laravel/10.x/ja/authentication.html
-    // Userモデルインスタンスからidフィールドを取得する。
     if (Auth::id() !== $user->id) {
-        // abort関数でHTTPレスポンスコードを指定してエラーレスポンスを生成し、即座にリクエスト処理を終了させる。
         abort(403, 'You do not have permission to edit this blog');
     }
     return view('users.edit', [
@@ -222,7 +223,7 @@ public function edit(User $user): View
 }
 ```
 
-### 8. 他のユーザー情報にアクセスできないように認可制御する
+### 他のユーザー情報にアクセスできないように認可制御できているか確認する
 
 他のユーザー情報に改めてアクセスします。<http://localhost/users/2/edit><br>
 以下のようなエラー画面が表示された場合、認可制御が成功しています。
