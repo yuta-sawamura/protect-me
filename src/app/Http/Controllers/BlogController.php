@@ -64,20 +64,22 @@ class BlogController extends Controller
 
     /**
      * Display the specified resource.
-     * @param Blog $blog
+     * @param int $id
      * @return View
      */
-    public function show(Blog $blog): View
+    public function show(int $id): View
     {
+        $blog = Blog::with('user')->findOrFail($id);
         return view('blogs.show', ['blog' => $blog]);
     }
 
     /**
      * Show the form for editing the specified resource.
-     * @param Blog $blog
+     * @param int $id
      */
-    public function edit(Blog $blog): View
+    public function edit(int $id): View
     {
+        $blog = Blog::findOrFail($id);
         if (Auth::id() !== $blog->user_id) {
             abort(403, 'You do not have permission to edit this blog');
         }
@@ -87,16 +89,17 @@ class BlogController extends Controller
     /**
      * Update the specified resource in storage.
      * @param Request $request
-     * @param Blog $blog
+     * @param int $id
      * @return RedirectResponse
      */
-    public function update(Request $request, Blog $blog): RedirectResponse
+    public function update(Request $request, int $id): RedirectResponse
     {
         $request->validate([
             'title' => 'required|max:255',
             'content' => 'required',
         ]);
 
+        $blog = Blog::findOrFail($id);
         if (Auth::id() !== $blog->user_id) {
             abort(403, 'You do not have permission to edit this blog');
         }
@@ -110,11 +113,12 @@ class BlogController extends Controller
 
     /**
      * Remove the specified resource from storage.
-     * @param Blog $blog
+     * @param int $id
      * @return RedirectResponse
      */
-    public function destroy(Blog $blog): RedirectResponse
+    public function destroy(int $id): RedirectResponse
     {
+        $blog = Blog::findOrFail($id);
         if (Auth::id() !== $blog->user_id) {
             abort(403, 'You do not have permission to delete this blog');
         }

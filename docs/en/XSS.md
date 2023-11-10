@@ -33,18 +33,18 @@ The basic countermeasures to prevent XSS attacks are:
 
 Let's proceed to execute the attack and its countermeasure:
 
-1. Log in
+### 1. Log in
 
     Access http://localhost/login, enter Email: `john@example.com`, Password: `password`, and log in.
 
-2. Enter a malicious script
+### 2. Enter a malicious script
 
     Navigate to http://localhost/blogs/create, enter Title:`<script>alert("XSS!!!");</script>`, Content:`Launching XSS attack.` and click the Submit button.<br>
     If you're redirected and an alert with JavaScript execution pops up, the attack was successful.
 
 ![xss](../img/xss1.png)
 
-3. Verify the HTML
+### 3. Verify the HTML
 
 Check how the browser is parsing the entered script. Open the inspection tools in your browser and confirm the HTML. You should be able to see `<script>alert("XSS!!!");</script>` parsed.
 
@@ -52,7 +52,7 @@ Check how the browser is parsing the entered script. Open the inspection tools i
 
 ![xss](../img/xss3.png)
 
-4. Escape the Output
+### 4. Escape the Output
 
 Below is the code snippet that retrieves and displays the blog title saved in the database:
 
@@ -68,7 +68,7 @@ In this code, user input is directly displayed in the browser, posing a risk for
 {{ $blog->title; }}
 ```
 
-5. Verify the Countermeasure
+### 5. Verify the Countermeasure
 
     Access http://localhost/ and ensure the malicious script isn't executed. Instead, you should see `<script>alert("XSS!!!");</script>` displayed as plain text.
 
