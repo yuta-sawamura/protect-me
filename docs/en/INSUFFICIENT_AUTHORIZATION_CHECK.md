@@ -30,7 +30,7 @@ As indicated in the attached image below, please access the My Page.
 
 ![authorization](../img/authorization1.png)
 
-以下の添付画像に記載されているように、ユーザー情報編集画面にアクセスしてください。
+Please access the user information editing screen as shown in the attached image below.
 
 ![authorization](../img/authorization2.png)
 
