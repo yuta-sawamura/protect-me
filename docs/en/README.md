@@ -5,6 +5,7 @@
 ProtectMe is a hands-on service designed to help users learn about web security. Through this service, users can launch vulnerable websites(Blog) on their local development environments, experience both cyber attacks and countermeasures firsthand, and thereby deepen their understanding of web security. Currently, you can learn about the following vulnerabilities:
 
 -   [XSS](./XSS.md)
+-   [Insufficient Authorization Check](./INSUFFICIENT_AUTHORIZATION_CHECK.md)
 
 ## [日本語](../../README.md) | English
 
@@ -135,6 +136,7 @@ After following the steps above, access the application by navigating to http://
 After building the setup, deepen your understanding of vulnerabilities through hands-on activities.
 
 -   [XSS](./XSS.md)
+-   [Insufficient Authorization Check](./INSUFFICIENT_AUTHORIZATION_CHECK.md)
 
 ## Tips
 

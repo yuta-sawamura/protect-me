@@ -5,6 +5,7 @@
 ProtectMe は、Web セキュリティについてハンズオンで学習するためのサービスです。このサービスでは、脆弱性を持つ Web サイト（ブログ）をローカル開発環境で起動し、攻撃と対策を体験することで、Web セキュリティについての理解を深めます。以下の脆弱性について学ぶことができます。
 
 -   [XSS](./docs/ja/XSS.md)
+-   [認可制御不備](./docs/ja/INSUFFICIENT_AUTHORIZATION_CHECK.md)
 
 ## 日本語 | [English](./docs/en/README.md)
 
@@ -135,6 +136,7 @@ $ docker compose exec app php artisan migrate:fresh --seed
 環境構築後、ハンズオンで脆弱性の理解を深めましょう。
 
 -   [XSS](./docs/ja/XSS.md)
+-   [認可制御不備](./docs/ja/INSUFFICIENT_AUTHORIZATION_CHECK.md)
 
 ## Tips
 
