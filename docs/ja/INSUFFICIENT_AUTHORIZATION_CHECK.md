@@ -20,6 +20,12 @@
 
 ## ハンズオン（攻撃）
 
+それでは、悪意あるユーザーとなって攻撃してみましょう！
+
+### イメージ図
+
+![authorization](../img/authorization10.png)
+
 ### 1. ログインする
 
 http://localhost/login にアクセスし、Email：`john@example.com`, Password：`password`を入力し、ログインしてください。
@@ -53,6 +59,10 @@ Name と Email に適当な値を入力し、「Update」ボタンをクリッ�
 ![authorization](../img/authorization5.png)
 
 ## ハンズオン（対策） - 他のユーザー情報を編集できないように認可制御する
+
+### イメージ図
+
+![authorization](../img/authorization12.png)
 
 ### 概要
 
@@ -130,7 +140,7 @@ public function update(Request $request, int $id): RedirectResponse
     // ログインユーザーと編集の対象リソースの比較
     if (Auth::id() !== $user->id) {
         // 403エラーを返却する
-        abort(403, 'You do not have permission to edit this blog');
+        abort(403, 'You do not have permission');
     }
 
     // リクエストデータのバリデーションを行います。
@@ -173,7 +183,7 @@ SELECT * FROM users WHERE id = [指定されたID] LIMIT 1;
 `Auth::id() !== $user->id`で比較し、合致しなければ編集不可であるため、`abort` 関数で HTTP レスポンスコードを指定してエラーレスポンスを生成し、即座にリクエスト処理を終了させます。
 
 ```php
-abort(403, 'You do not have permission to edit this blog');
+abort(403, 'You do not have permission');
 ```
 
 ### 他のユーザー情報を編集できないように認可制御できているか確認する
@@ -210,7 +220,7 @@ public function edit(int $id): View
     $user = User::findOrFail($id);
     // 認可制御
     if (Auth::id() !== $user->id) {
-        abort(403, 'You do not have permission to edit this blog');
+        abort(403, 'You do not have permission');
     }
     return view('users.edit', [
         'user' => $user,

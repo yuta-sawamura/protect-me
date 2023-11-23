@@ -10,7 +10,7 @@ When there is an insufficient authorization check, it becomes possible to impers
 
 ## Attack Methods
 
-In attacks exploiting insufficient authorization controls, attackers access resources or functionalities for which they do not have permission. This issue arises when a web application fails to properly authorize user actions.  
+In attacks exploiting insufficient authorization controls, attackers access resources or functionalities for which they do not have permission This issue arises when a web application fails to properly authorize user actions.  
 For example, an attacker might manipulate URL parameters or form data that are changeable, allowing them to view or modify another user's personal information.
 
 ## Mitigation Strategies
@@ -19,6 +19,12 @@ It is essential to validate the permissions of users for the actions they perfor
 For instance, manage user IDs using session information, and when accessing the database, use these IDs for verification. This approach ensures that only authorized users can perform specific actions, thereby safeguarding against unauthorized access or modifications.
 
 ## Hands-On (Attack)
+
+Let's pretend to be a malicious user and attack!
+
+### Image diagram
+
+![authorization](../img/authorization11.png)
 
 ### 1. Log In
 
@@ -53,6 +59,10 @@ A flash message is displayed, and you were able to edit another user's informati
 ![authorization](../img/authorization5.png)
 
 ## Hands-On (Mitigation) - Implementing Authorization Control to Prevent Editing of Other User's Information
+
+### Image diagram
+
+![authorization](../img/authorization13.png)
 
 ### Overview
 
@@ -131,7 +141,7 @@ public function update(Request $request, int $id): RedirectResponse
     // Comparing the logged-in user with the target resource for editing
     if (Auth::id() !== $user->id) {
         // Returns a 403 error
-        abort(403, 'You do not have permission to edit this blog');
+        abort(403, 'You do not have permission');
     }
 
     // Validates the request data.
@@ -174,7 +184,7 @@ SELECT * FROM users WHERE id = [ID] LIMIT 1;
 If `Auth::id() !== $user->id` does not match, editing is not permitted, so the `abort` function is used to generate an error response with an HTTP response code, immediately terminating the request processing.
 
 ```php
-abort(403, 'You do not have permission to edit this blog');
+abort(403, 'You do not have permission');
 ```
 
 ### Confirming Authorization Control to Prevent Editing of Other User's Information
@@ -211,7 +221,7 @@ public function edit(int $id): View
     $user = User::findOrFail($id);
     //  Authorization control
     if (Auth::id() !== $user->id) {
-        abort(403, 'You do not have permission to edit this blog');
+        abort(403, 'You do not have permission');
     }
     return view('users.edit', [
         'user' => $user,
