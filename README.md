@@ -9,7 +9,7 @@ ProtectMe は、Web セキュリティについてハンズオンで学習する
 
 ## 日本語 | [English](./docs/en/README.md)
 
-## 環境構築
+## 実行環境
 
 Docker を活用して、Laravel(Linux, nginx, MySQL,PHP)で開発されたマルチページアプリケーションをローカル開発環境で起動します。
 
@@ -133,7 +133,7 @@ $ docker compose exec app php artisan migrate:fresh --seed
 
 ## ハンズオン
 
-環境構築後、ハンズオンで脆弱性の理解を深めましょう。
+実行環境を構築後、ハンズオンで脆弱性の理解を深めましょう。
 
 -   [XSS](./docs/ja/XSS.md)
 -   [認可制御不備](./docs/ja/INSUFFICIENT_AUTHORIZATION_CHECK.md)
