@@ -15,6 +15,8 @@ Docker を活用して、Laravel(Linux, nginx, MySQL, PHP)で開発されたマ�
 
 ### 前提
 
+-   お好みのエディタをインストール済み([Visual Studio Code](https://code.visualstudio.com/) 推奨)
+-   [Google Chrome](https://www.google.com/intl/ja_jp/chrome/) をインストール済み
 -   [Docker for Mac / Windows](https://www.docker.com/products/docker-desktop/)をインストール済み
 
 ```console

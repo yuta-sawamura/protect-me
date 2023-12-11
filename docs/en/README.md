@@ -15,6 +15,8 @@ We utilize Docker to run a multi-page application developed in Laravel (Linux, n
 
 ### Prerequisite
 
+-   The preferred editor installed([Visual Studio Code](https://code.visualstudio.com/) recommended)
+-   [Google Chrome](https://www.google.com/intl/ja_jp/chrome/) installed
 -   [Docker for Mac / Windows](https://www.docker.com/products/docker-desktop/)installed
 
 ```console
