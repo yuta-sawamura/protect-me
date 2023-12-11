@@ -15,17 +15,14 @@ We utilize Docker to run a multi-page application developed in Laravel (Linux, n
 
 ### Prerequisite
 
--   [Git](https://git-scm.com/)installed
 -   [Docker for Mac / Windows](https://www.docker.com/products/docker-desktop/)installed
 
 ```console
-$ git --version
-git version x.x.x
 $ docker --version
 Docker version x.x.x, build xxxxx
 ```
 
-### Installation
+### Downloading Source Code (Git Installed)
 
 ```console
 # Clone source code from GitHub
@@ -37,7 +34,19 @@ remote: Compressing objects: 100% (96/96), done.
 remote: Total 606 (delta 49), reused 87 (delta 26), pack-reused 470
 Receiving objects: 100% (606/606), 839.18 KiB | 1024.00 KiB/s, done.
 Resolving deltas: 100% (273/273), done.
+```
 
+### Downloading Source Code (Git Not Installed)
+
+1. Visit the repository at https://github.com/yuta-sawamura/protect-me.
+2. Click on the "Download ZIP" button to download the ZIP file to your local machine.
+3. Unzip the downloaded ZIP file to access the contents.
+
+![zip](../img/zip.png)
+
+### Installation
+
+```console
 # Go to protect-me directory
 $ cd protect-me
 
@@ -53,7 +62,7 @@ $ docker compose build
 Use 'docker scan' to run Snyk tests against images to find vulnerabilities and learn how to fix them
 
 # Start the service in the background based on docker-compose.yml
-$ docker compose up -d
+$ docker compose up
 [+] Running 4/4
  ⠿ Network "protect-me_default"  Created
  ⠿ Container protect-me_db_1     Started
@@ -142,7 +151,7 @@ After building the setup, deepen your understanding of vulnerabilities through h
 
 ```console
 # To create containers
-$ docker compose up -d
+$ docker compose up
 
 # To destroy containers
 $ docker compose down

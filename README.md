@@ -11,21 +11,18 @@ ProtectMe は、Web セキュリティについてハンズオンで学習する
 
 ## 実行環境
 
-Docker を活用して、Laravel(Linux, nginx, MySQL,PHP)で開発されたマルチページアプリケーションをローカル開発環境で起動します。
+Docker を活用して、Laravel(Linux, nginx, MySQL, PHP)で開発されたマルチページアプリケーションをローカル開発環境で起動します。
 
 ### 前提
 
--   [Git](https://git-scm.com/)をインストール済み
 -   [Docker for Mac / Windows](https://www.docker.com/products/docker-desktop/)をインストール済み
 
 ```console
-$ git --version
-git version x.x.x
 $ docker --version
 Docker version x.x.x, build xxxxx
 ```
 
-### インストール
+### ソースコードのダウンロード（Git インストール済）
 
 ```console
 # GitHubからソースコードをクローン
@@ -37,7 +34,19 @@ remote: Compressing objects: 100% (96/96), done.
 remote: Total 606 (delta 49), reused 87 (delta 26), pack-reused 470
 Receiving objects: 100% (606/606), 839.18 KiB | 1024.00 KiB/s, done.
 Resolving deltas: 100% (273/273), done.
+```
 
+### ソースコードのダウンロード（Git 未インストール）
+
+1. [リポジトリ](https://github.com/yuta-sawamura/protect-me)にアクセス
+2. 「Download ZIP」をクリックし、ZIP ファイルをローカルにダウンロード
+3. ZIP ファイルを解凍
+
+![zip](./docs/img/zip.png)
+
+### インストール
+
+```console
 # protect-meディレクトリに移動
 $ cd protect-me
 
@@ -52,8 +61,8 @@ $ docker compose build
 
 Use 'docker scan' to run Snyk tests against images to find vulnerabilities and learn how to fix them
 
-# docker-compose.ymlを元にサービスをバックグラウンドで起動
-$ docker compose up -d
+# docker-compose.ymlを元にサービスをフォアグランドで起動
+$ docker compose up
 [+] Running 4/4
  ⠿ Network "protect-me_default"  Created
  ⠿ Container protect-me_db_1     Started
@@ -142,7 +151,7 @@ $ docker compose exec app php artisan migrate:fresh --seed
 
 ```console
 # コンテナを作成する
-$ docker compose up -d
+$ docker compose up
 
 # コンテナを破棄する
 $ docker compose down
