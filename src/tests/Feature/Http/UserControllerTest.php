@@ -15,6 +15,7 @@ class UserControllerTest extends TestCase
     public function testShow()
     {
         $user = User::factory()->create();
+        $this->actingAs($user);
         Blog::factory()->count(3)->create(['user_id' => $user->id]);
 
         $response = $this->get(route('users.show', $user));
@@ -48,7 +49,7 @@ class UserControllerTest extends TestCase
 
         $response = $this->put(route('users.update', $user), $updatedData);
 
-        $response->assertRedirect(route('users.show', $user));
+        $response->assertRedirect(route('users.edit', $user));
         $this->assertDatabaseHas('users', $updatedData);
     }
 
