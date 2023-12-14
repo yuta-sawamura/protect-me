@@ -18,6 +18,38 @@ For example, an attacker might manipulate URL parameters or form data that are c
 It is essential to validate the permissions of users for the actions they perform, ensuring that unauthorized operations are not allowed. Proper session management and secure handling of user IDs can prevent unauthorized access.  
 For instance, manage user IDs using session information, and when accessing the database, use these IDs for verification. This approach ensures that only authorized users can perform specific actions, thereby safeguarding against unauthorized access or modifications.
 
+## Hands-On (Normal Operation)
+
+First, we'll use the system normally to confirm its proper functioning. You'll be updating an article that you've posted.
+
+![authorization](../img/authorization7.png)
+
+### 1. Log In
+
+Access <http://localhost/login> and enter the Email: `john@example.com` and Password: `password`, then log in.
+
+![authorization](../img/authorization2.png)
+
+### 2. Access Article Detail and Edit Screens
+
+From the article list screen, access the detail screen of the article posted by @John.
+
+![authorization](../img/authorization3.png)
+
+Next, access the article edit screen from the article detail screen.
+
+![authorization](../img/authorization4.png)
+
+### 3. Update the Article
+
+Enter appropriate strings in the Title and Content fields and click the 'Update' button.
+
+![authorization](../img/authorization5.png)
+
+Your article update will be successful.
+
+![authorization](../img/authorization6.png)
+
 ## Hands-On (Attack)
 
 Let's pretend to be a malicious user and attack!

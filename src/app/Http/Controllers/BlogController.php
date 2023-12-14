@@ -80,9 +80,9 @@ class BlogController extends Controller
     public function edit(int $id): View
     {
         $blog = Blog::findOrFail($id);
-        if (Auth::id() !== $blog->user_id) {
-            abort(403, 'You do not have permission');
-        }
+        // if (Auth::id() !== $blog->user_id) {
+        //     abort(403, 'You do not have permission');
+        // }
         return view('blogs.edit', ['blog' => $blog]);
     }
 
@@ -100,9 +100,9 @@ class BlogController extends Controller
         ]);
 
         $blog = Blog::findOrFail($id);
-        if (Auth::id() !== $blog->user_id) {
-            abort(403, 'You do not have permission');
-        }
+        // if (Auth::id() !== $blog->user_id) {
+        //     abort(403, 'You do not have permission');
+        // }
 
         $blog->title = $request->title;
         $blog->content = $request->content;
