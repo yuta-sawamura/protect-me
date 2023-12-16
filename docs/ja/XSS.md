@@ -27,51 +27,106 @@ XSS 攻撃を防ぐための基本的な対策は以下の通りです。
 -   入力の検証：ユーザからの入力を受け取る際、スクリプトやタグが含まれていないかを検証する
 -   出力のエスケープ：ページにデータを表示する際、スクリプトとして実行されないよう特殊文字をエスケープする
 
-## ハンズオン
+## ハンズオン（正常な動作）
 
-それでは、攻撃と対策を実施してみましょう。
+まずは通常利用し、正常な動作を確認します。記事を投稿します。
+
+![xss](../img/xss1.png)
 
 ### 1. ログインする
 
 http://localhost/login にアクセスし、Email：`john@example.com`, Password：`password`を入力し、ログインしてください。
 
-### 2. 悪意のあるスクリプトを入力する
+![authorization](../img/xss2.png)
 
-http://localhost/blogs/create にアクセスし、Title：`<script>alert("XSS!!!");</script>`, Content：`XSSを仕掛けます。`と入力し、「Submit」ボタンをクリックしてください。<br>
-画面遷移し、JavaScript が実行されアラートが表示されれば攻撃成功です。
+### 2. 記事投稿画面にアクセスする
 
-![xss](../img/xss1.png)
+記事一覧画面から、記事投稿画面にアクセスしてください。
+
+![authorization](../img/xss3.png)
+
+### 3. 記事を投稿する
+
+Title と Content に適当な文字列を入力後、「Submit」ボタンをクリックし、記事を投稿します。
+
+![authorization](../img/xss4.png)
+![authorization](../img/xss5.png)
+
+## ハンズオン（攻撃）
+
+それでは、悪意あるユーザーとなって攻撃してみましょう！
+
+![authorization](../img/xss6.png)
+
+### 1. ログインする
+
+http://localhost/login にアクセスし、Email：`john@example.com`, Password：`password`を入力し、ログインしてください。※すでにログイン済みの場合は不要です。
+
+![authorization](../img/xss2.png)
+
+### 2. 記事投稿画面にアクセスする
+
+記事一覧画面から、記事投稿画面にアクセスしてください。
+
+![authorization](../img/xss3.png)
+
+### 3. 記事投稿画面でをスクリプトを投稿する
+
+<http://localhost/blogs/create> にアクセスし、Title：`<script>alert("XSS!!!");</script>`, Content：`XSSを仕掛けます。`と入力し、「Submit」ボタンをクリックしてください。`<script>alert("XSS!!!");</script>`は、Web サイト上に「XSS!!!」というテキストを含むアラートを表示するための JavaScript です。  
+投稿後、画面遷移し、アラートが表示されれば攻撃成功です。このアラートは全ユーザーに表示されます。
+
+![xss](../img/xss7.png)
 
 ### 3. HTML を確認する
 
-入力したスクリプトがブラウザでどのように解析されているか確認します。お使いのブラウザで検証ツールを開き、HTML を確認してください。`<script>alert("XSS!!!");</script>`と解析されているのが確認できます。
+入力した JavaScript がブラウザでどのように解析されているか確認します。お使いのブラウザで検証ツールを開き、HTML を確認してください。`<script>alert("XSS!!!");</script>`と解析されているのが確認できます。
 
-![xss](../img/xss2.png)
+![xss](../img/xss8.png)
 
-![xss](../img/xss3.png)
+![xss](../img/xss9.png)
 
-### 4. 出力のエスケープ
+スクリプトを使用して、ユーザーのブラウザ内で不正な操作や偽のページや広告の表示するなど悪用することが可能になります。よって、一般的な Web サイトは、ユーザーの入力したスクリプトを無効化します。
 
-以下は、ユーザーの入力が保存されたデータベースからブログのタイトルを取得し、表示する記述です。
+## ハンズオン（対策）
+
+### 1. 出力のエスケープ
+
+以下は、ユーザーの入力した記事のタイトルを表示する記述です。
 
 ```php
 <?php echo $blog->title; ?>
 ```
 
-https://github.com/yuta-sawamura/protect-me/blob/main/src/resources/views/blogs/index.blade.php#L44
+<https://github.com/yuta-sawamura/protect-me/blob/main/src/resources/views/blogs/index.blade.php#L44>
 
-このコードでは、ユーザーの入力がそのままブラウザに出力されます。これは、XSS 攻撃のリスクがあるため避ける必要があります。Laravel の Blade テンプレートエンジンは、デフォルトでエスケープ方法を提供しています。これを利用すると、スクリプトが実行されないように特殊文字がエスケープされます。修正方法は以下の通りです。
+このコードでは、ユーザーの入力がそのままブラウザに出力されます。これは、XSS 攻撃のリスクがあるため避ける必要があります。Laravel の Blade テンプレートエンジンは、デフォルトでエスケープ方法を提供しています。これを利用すると、スクリプトが実行されないように特殊文字がエスケープされます。以下のように該当コードを修正してください。
 
 ```php
 {{ $blog->title; }}
 ```
 
-### 5. 対策の確認
+＜エスケープ処理＞
+エスケープ処理とは、プログラミングにおいて特定の文字が持つ特別な意味を取り消し、文字列として扱うための方法です。たとえば、HTML では「<」や「>」はタグを表すため、これらの文字をそのまま表示させたい場合はエスケープ処理を施す必要があります。同様に、プログラミング言語などで、特定の記号や文字列がコマンドや指示として解釈されるのを防ぐためにも用いられます。これにより、不正なコードの実行を防いだり、データの正確な入力・表示を保証したりすることができます。
 
-http://localhost/ にアクセスし、悪意のあるスクリプトが実行されておらず、`<script>alert("XSS!!!");</script>`と文字列が表示されています。
+### 2. 対策の確認
 
-![xss](../img/xss4.png)
+<http://localhost/> にアクセスしてください。JavaScript は実行されず、`<script>alert("XSS!!!");</script>`という文字列が表示されます。これは XSS 攻撃に対する正しい対策ができている証拠です。
 
-HTML を確認し、先ほどは`<script>alert("XSS!!!");</script>`と表示されていたのが、`&lt;script&gt;alert(&quot;XSS!!!&quot;);&lt;/script&gt;`とスクリプト部分がエスケープ処理が施されていることが確認できます。
+![xss](../img/xss10.png)
 
-![xss](../img/xss5.png)
+ブラウザで検証ツールを開き、HTML を確認してください。先ほどは`<script>alert("XSS!!!");</script>`と表示されていたのが、`&lt;script&gt;alert(&quot;XSS!!!&quot;);&lt;/script&gt;`とスクリプト部分がエスケープ処理が施されていることが確認できます。
+
+![xss](../img/xss8.png)
+![xss](../img/xss11.png)
+
+ユーザーの入力した記事のタイトルを表示する記述にエスケープ処理を施したことで、XSS を対策することができました。
+
+```php
+<?php echo $blog->title; ?>
+```
+
+↓
+
+```php
+{{ $blog->title; }}
+```
