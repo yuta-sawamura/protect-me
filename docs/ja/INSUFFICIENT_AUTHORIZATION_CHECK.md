@@ -54,7 +54,7 @@ Title と Content に適当な文字列を入力し、「Update」ボタンを�
 
 それでは、悪意あるユーザーとなって攻撃してみましょう！
 
-![authorization](../img/authorization15.png)
+![authorization](../img/authorization10.png)
 
 ### 1. ログインする
 
@@ -71,7 +71,7 @@ Title と Content に適当な文字列を入力し、「Update」ボタンを�
 
 記事詳細画面から記事編集画面にアクセスします。
 
-![authorization](../img/authorization9.png)
+![authorization](../img/authorization5.png)
 
 自身のユーザー情報編集画面にアクセスできます。これは**正常な動作**です。
 
@@ -129,7 +129,7 @@ Title と Contetnt に適当な値を入力し、「Update」ボタンをクリ�
 | 4   | 2       | How to Improve ... | Getting good ...     |
 | 5   | 3       | The Benefits ...   | Spending time ...    |
 
-例えば、`blogs.id = 2` の記事の title は hoge です。`blogs.user_id = 2` であるため、Michael によって投稿されたことがわかります。
+例えば、`blogs.id = 2` の記事の title は hoge2 です。`blogs.user_id = 2` であるため、`@Michael` によって投稿されたことがわかります。
 
 ![authorization](../img/authorization17.png)
 
@@ -170,7 +170,7 @@ public function update(Request $request, int $id): RedirectResponse
 }
 ```
 
-<https://github.com/yuta-sawamura/protect-me/blob/main/src/app/Http/Controllers/UserController.php#L46-L65>
+https://github.com/yuta-sawamura/protect-me/blob/main/src/app/Http/Controllers/BlogController.php#L91-L115
 
 ### 認可制御の実装
 
@@ -217,7 +217,7 @@ public function update(Request $request, int $id): RedirectResponse
 SELECT * FROM users WHERE id = [指定されたID] LIMIT 1;
 ```
 
-`Auth::id() !== $blog->user_id` で比較し、一致しなければ編集不可であるため、`abort` 関数で HTTP レスポンスコードを指定してエラーレスポンスを生成し、即座にリクエスト処理を終了させます。
+`Auth::id() !== $blog->user_id` で比較し、一致しなければ更新不可であるため、`abort` 関数で HTTP レスポンスコードを指定してエラーレスポンスを生成し、即座にリクエスト処理を終了させます。
 
 ```php
 abort(403, 'You do not have permission');
@@ -245,7 +245,7 @@ public function edit(int $id): View
 }
 ```
 
-https://github.com/yuta-sawamura/protect-me/blob/main/src/app/Http/Controllers/UserController.php#L32-L44
+https://github.com/yuta-sawamura/protect-me/blob/main/src/app/Http/Controllers/BlogController.php#L76-L89
 
 ＜認可制御後＞
 
