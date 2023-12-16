@@ -72,12 +72,15 @@ http://localhost/login にアクセスし、Email：`john@example.com`, Password
 
 ### 3. 記事投稿画面でをスクリプトを投稿する
 
-<http://localhost/blogs/create> にアクセスし、Title：`<script>alert("XSS!!!");</script>`, Content：`XSSを仕掛けます。`と入力し、「Submit」ボタンをクリックしてください。`<script>alert("XSS!!!");</script>`は、Web サイト上に「XSS!!!」というテキストを含むアラートを表示するための JavaScript です。  
+<http://localhost/blogs/create> にアクセスし、Title：`<script>alert("XSS!!!");</script>`, Content：`XSSを仕掛けます。`と入力し、「Submit」ボタンをクリックしてください。`<script>alert("XSS!!!");</script>`は、Web サイト上に「XSS!!!」というテキストを含むアラートを表示するための JavaScript です。
+
+![xss](../img/xss12.png)
+
 投稿後、画面遷移し、アラートが表示されれば攻撃成功です。このアラートは全ユーザーに表示されます。
 
 ![xss](../img/xss7.png)
 
-### 3. HTML を確認する
+### 4. HTML を確認する
 
 入力した JavaScript がブラウザでどのように解析されているか確認します。お使いのブラウザで検証ツールを開き、HTML を確認してください。`<script>alert("XSS!!!");</script>`と解析されているのが確認できます。
 
@@ -105,7 +108,7 @@ http://localhost/login にアクセスし、Email：`john@example.com`, Password
 {{ $blog->title; }}
 ```
 
-＜エスケープ処理＞
+＜エスケープ処理＞  
 エスケープ処理とは、プログラミングにおいて特定の文字が持つ特別な意味を取り消し、文字列として扱うための方法です。たとえば、HTML では「<」や「>」はタグを表すため、これらの文字をそのまま表示させたい場合はエスケープ処理を施す必要があります。同様に、プログラミング言語などで、特定の記号や文字列がコマンドや指示として解釈されるのを防ぐためにも用いられます。これにより、不正なコードの実行を防いだり、データの正確な入力・表示を保証したりすることができます。
 
 ### 2. 対策の確認
