@@ -7,8 +7,6 @@ ProtectMe は、Web セキュリティについてハンズオンで学習する
 -   [XSS](./docs/ja/XSS.md)
 -   [認可制御不備](./docs/ja/INSUFFICIENT_AUTHORIZATION_CHECK.md)
 
-## 日本語 | [English](./docs/en/README.md)
-
 ## 実行環境
 
 Docker を活用して、Laravel(Linux, nginx, MySQL, PHP)で開発されたマルチページアプリケーションをローカル開発環境で起動します。

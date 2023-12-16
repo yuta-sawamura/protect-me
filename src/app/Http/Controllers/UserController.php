@@ -38,6 +38,9 @@ class UserController extends Controller
     public function edit(int $id): View
     {
         $user = User::findOrFail($id);
+        if (Auth::id() !== $user->id) {
+            abort(403, 'You do not have permission');
+        }
         return view('users.edit', [
             'user' => $user,
         ]);
@@ -52,7 +55,9 @@ class UserController extends Controller
     public function update(Request $request, int $id): RedirectResponse
     {
         $user = User::findOrFail($id);
-
+        if (Auth::id() !== $user->id) {
+            abort(403, 'You do not have permission');
+        }
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => [
