@@ -81,7 +81,8 @@ Title と Content に適当な文字列を入力し、「Update」ボタンを�
 
 ![authorization](../img/authorization10.png)
 
-URL の 1 の部分を 2 に変更して、「Enter」をクリックします。ID 2 は`@Michael`の記事です。他のユーザーの記事編集画面にアクセスすることができました。他のユーザーの記事編集画面にアクセスできるのは望ましくありません。これは、**認可制御の不備**です。
+URL の 1 の部分を 2 に変更して、「Enter」をクリックします。<http://localhost/blogs/2/edit>  
+ID 2 は`@Michael`の記事です。他のユーザーの記事編集画面にアクセスすることができました。他のユーザーの記事編集画面にアクセスできるのは望ましくありません。これは、**認可制御の不備**です。
 
 ![authorization](../img/authorization11.png)
 ![authorization](../img/authorization12.png)
