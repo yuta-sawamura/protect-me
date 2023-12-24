@@ -60,7 +60,8 @@ Title と Content に適当な文字列を入力後、「Submit」ボタンを�
 
 ### 1. ログインする
 
-http://localhost/login にアクセスし、Email：`john@example.com`, Password：`password`を入力し、ログインしてください。※すでにログイン済みの場合は不要です。
+すでにログイン済みの場合は不要です。  
+http://localhost/login にアクセスし、Email：`john@example.com`, Password：`password`を入力し、ログインしてください。
 
 ![authorization](../img/xss2.png)
 
@@ -100,9 +101,15 @@ http://localhost/login にアクセスし、Email：`john@example.com`, Password
 <?php echo $blog->title; ?>
 ```
 
-<https://github.com/yuta-sawamura/protect-me/blob/main/src/resources/views/blogs/index.blade.php#L44>
+[該当ソースコード](https://github.com/yuta-sawamura/protect-me/blob/main/src/resources/views/blogs/index.blade.php#L44)
 
 このコードでは、ユーザーの入力がそのままブラウザに出力されます。これは、XSS 攻撃のリスクがあるため避ける必要があります。Laravel の Blade テンプレートエンジンは、デフォルトでエスケープ方法を提供しています。これを利用すると、スクリプトが実行されないように特殊文字がエスケープされます。以下のように該当コードを修正してください。
+
+```php
+<?php echo $blog->title; ?>
+```
+
+↓
 
 ```php
 {{ $blog->title; }}
@@ -132,4 +139,12 @@ http://localhost/login にアクセスし、Email：`john@example.com`, Password
 
 ```php
 {{ $blog->title; }}
+```
+
+## その他
+
+次の演習のため、以下のコマンドでデータをリフレッシュしましょう。
+
+```bash
+$ docker compose exec app php artisan migrate:fresh --seed
 ```

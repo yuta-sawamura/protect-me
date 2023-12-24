@@ -26,6 +26,7 @@
 
 ### 1. ログインする
 
+すでにログイン済みの場合は不要です。  
 <http://localhost/login> にアクセスし、Email：`john@example.com`, Password：`password`を入力し、ログインしてください。
 
 ![authorization](../img/authorization2.png)
@@ -58,8 +59,8 @@ Title と Content に適当な文字列を入力し、「Update」ボタンを�
 
 ### 1. ログインする
 
+すでにログイン済みの場合は不要です。  
 <http://localhost/login> にアクセスし、Email：`john@example.com`, Password：`password`を入力し、ログインしてください。
-※すでにログイン済みの場合は不要です。
 
 ![authorization](../img/authorization2.png)
 
@@ -171,7 +172,7 @@ public function update(Request $request, int $id): RedirectResponse
 }
 ```
 
-https://github.com/yuta-sawamura/protect-me/blob/main/src/app/Http/Controllers/BlogController.php#L91-L115
+[該当のソースコード](https://github.com/yuta-sawamura/protect-me/blob/main/src/app/Http/Controllers/BlogController.php#L91-L115)
 
 ### 認可制御の実装
 
@@ -227,7 +228,7 @@ abort(403, 'You do not have permission');
 ### 他のユーザーの記事を更新できないように認可制御できているか確認する
 
 他のユーザーの記事編集画面にアクセスします。<http://localhost/blogs/2/edit>  
-Name と Email に適当な値を入力し、「Update」ボタンをクリックします。以下のようなエラー画面が表示された場合、**認可制御が成功**しています。
+Title と Content に適当な値を入力し、「Update」ボタンをクリックします。以下のようなエラー画面が表示された場合、**認可制御が成功**しています。
 
 ![authorization](../img/authorization18.png)
 
@@ -246,7 +247,7 @@ public function edit(int $id): View
 }
 ```
 
-https://github.com/yuta-sawamura/protect-me/blob/main/src/app/Http/Controllers/BlogController.php#L76-L89
+[該当ソースコード](https://github.com/yuta-sawamura/protect-me/blob/main/src/app/Http/Controllers/BlogController.php#L76-L89)
 
 ＜認可制御後＞
 
@@ -270,3 +271,11 @@ public function edit(int $id): View
 ![authorization](../img/authorization19.png)
 
 自身の記事編集画面には通常通りアクセスし、更新ができれば問題ありません。<http://localhost/blogs/1/edit>
+
+## その他
+
+次の演習のため、以下のコマンドでデータをリフレッシュしましょう。
+
+```bash
+$ docker compose exec app php artisan migrate:fresh --seed
+```
