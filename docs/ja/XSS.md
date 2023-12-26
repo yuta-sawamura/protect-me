@@ -83,7 +83,7 @@ http://localhost/login にアクセスし、Email：`john@example.com`, Password
 
 ### 4. HTML を確認する
 
-入力した JavaScript がブラウザでどのように解析されているか確認します。お使いのブラウザで検証ツールを開き、HTML を確認してください。`<script>alert("XSS!!!");</script>`と解析されているのが確認できます。
+入力した JavaScript がブラウザでどのように解析されているか確認します。ブラウザでダブルクリックし、「ページのソースを表示」を選択し、HTML を確認してください。`<script>alert("XSS!!!");</script>`と解析されているのが確認できます。
 
 ![xss](../img/xss8.png)
 
@@ -124,22 +124,10 @@ http://localhost/login にアクセスし、Email：`john@example.com`, Password
 
 ![xss](../img/xss10.png)
 
-ブラウザで検証ツールを開き、HTML を確認してください。先ほどは`<script>alert("XSS!!!");</script>`と表示されていたのが、`&lt;script&gt;alert(&quot;XSS!!!&quot;);&lt;/script&gt;`とスクリプト部分がエスケープ処理が施されていることが確認できます。
+ブラウザでダブルクリックし、「ページのソースを表示」を選択しき、HTML を確認してください。先ほどは`<script>alert("XSS!!!");</script>`と表示されていたのが、`&lt;script&gt;alert(&quot;XSS!!!&quot;);&lt;/script&gt;`とスクリプト部分がエスケープ処理が施されていることが確認できます。
 
 ![xss](../img/xss8.png)
 ![xss](../img/xss11.png)
-
-ユーザーの入力した記事のタイトルを表示する記述にエスケープ処理を施したことで、XSS を対策することができました。
-
-```php
-<?php echo $blog->title; ?>
-```
-
-↓
-
-```php
-{{ $blog->title; }}
-```
 
 ## その他
 
