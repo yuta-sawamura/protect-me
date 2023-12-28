@@ -124,7 +124,7 @@ http://localhost/login にアクセスし、Email：`john@example.com`, Password
 
 ![xss](../img/xss10.png)
 
-ブラウザでダブルクリックし、「ページのソースを表示」を選択しき、HTML を確認してください。先ほどは`<script>alert("XSS!!!");</script>`と表示されていたのが、`&lt;script&gt;alert(&quot;XSS!!!&quot;);&lt;/script&gt;`とスクリプト部分がエスケープ処理が施されていることが確認できます。
+ブラウザで右クリックし、「ページのソースを表示」を選択しき、HTML を確認してください。先ほどは`<script>alert("XSS!!!");</script>`と表示されていたのが、`&lt;script&gt;alert(&quot;XSS!!!&quot;);&lt;/script&gt;`とスクリプト部分がエスケープ処理が施されていることが確認できます。
 
 ![xss](../img/xss8.png)
 ![xss](../img/xss11.png)
